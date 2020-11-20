@@ -1,7 +1,5 @@
-# Essential-Angular-for-ASP.NET-Core-MVC-3
-Angular no contexto do ASP.NET Core MVC 
-
-Criado a partir da leitura do livro:
+# Essential Angular for ASP.NET Core MVC-3
+Angular no contexto do ASP.NET Core MVC criado a partir da leitura do livro:
 
 Essential Angular for ASP.NET Core MVC 3
 
