@@ -5,10 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ServerApp.Controllers
 {
     [Route("api/suppliers")]
+    [Authorize(Roles ="Administrator")]
+    [AutoValidateAntiforgeryToken]
     public class SupplierValuesController : Controller
     {
         private DataContext context;

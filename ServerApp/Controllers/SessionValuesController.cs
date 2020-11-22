@@ -8,6 +8,7 @@ namespace ServerApp.Controllers
 {
     [Route("/api/session")]
     [ApiController]
+    [AutoValidateAntiforgeryToken]
     public class SessionValuesController : Controller
     {
         [HttpGet("cart")]

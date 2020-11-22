@@ -4,11 +4,14 @@ using ServerApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ServerApp.Controllers
 {
     [Route("/api/orders")]
     [ApiController]
+    [Authorize(Roles ="Administrator")]
+    [AutoValidateAntiforgeryToken]
     public class OrderValuesController : Controller
     {
         private DataContext context;
@@ -36,6 +39,7 @@ namespace ServerApp.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public IActionResult CreateOrder([FromBody] Order order)
         {
             if (ModelState.IsValid)
