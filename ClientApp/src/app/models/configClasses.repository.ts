@@ -8,3 +8,8 @@ export class Filter {
     this.related = false;
   }
 }
+
+export class Pagination {
+  productsPerPage: number = 4;
+  currentPage = 1;
+}

@@ -1,11 +1,20 @@
 import { Product } from "./product.model";
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { Filter } from "./configClasses.repository";
+import { Filter, Pagination } from "./configClasses.repository";
 import { Supplier } from "./supplier.model";
+import { Observable } from 'rxjs';
+import { Order, OrderConfirmation } from "./order.model";
 
 const productsUrl = "/api/products";
 const supplierUrl = "/api/suppliers";
+const sessionUrl = "/api/session";
+const ordersUrl = "/api/orders";
+
+type productsMetadata = {
+  data: Product[],
+  categories: string[]
+}
 
 @Injectable()
 export class Repository {
@@ -14,11 +23,13 @@ export class Repository {
   products: Product[];
   suppliers: Supplier[] = [];
   filter: Filter = new Filter();
+  categories: string[] = [];
+  paginationObject = new Pagination();
+  orders: Order[] = [];
 
   constructor(private http: HttpClient) {
-    //this.filter.category = "soccer";
     this.filter.related = true;
-    this.getProducts();
+    //this.getProducts();
   }
 
   getProduct(id: number) {
@@ -37,8 +48,12 @@ export class Repository {
       url += `&search=${this.filter.search}`;
     }
 
+    url += "&metadata=true";
 
-    this.http.get<Product[]>(url).subscribe(prods => this.products = prods);
+    this.http.get<productsMetadata>(url).subscribe(md => {
+      this.products = md.data;
+      this.categories = md.categories;
+        });
   }
 
   getSuppliers() {
@@ -126,4 +141,36 @@ export class Repository {
       })
   }
 
+  storeSessionData<T>(dataType: string, data: T) {
+    return this.http.post(`${sessionUrl}/${dataType}`,data)
+      .subscribe(response => { });
+  }
+
+  getSessionData<T>(dataType: string): Observable<T> {
+    return this.http.get<T>(`${sessionUrl}/${dataType}`);
+  }
+
+  getOrders() {
+    this.http.get<Order[]>(ordersUrl)
+      .subscribe(data => this.orders = data);
+  }
+
+  createOrder(order: Order) {
+    this.http.post<OrderConfirmation>(ordersUrl, {
+      name: order.name,
+      address: order.address,
+      payment: order.payment,
+      products: order.products
+    })
+      .subscribe(data => {
+        order.orderConfirmation = data;
+        order.cart.clear();
+        order.clear();
+      });
+  }
+
+  shipOrder(order: Order) {
+    this.http.post(`${ordersUrl}/${order.orderId}`, {})
+      .subscribe(()=> this.getOrders());
+  }
 }
