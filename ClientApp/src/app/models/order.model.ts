@@ -77,7 +77,8 @@ export class Order {
 export class Payment {
   cardNumber: string|null;
   cardExpiry: string|null;
-  cardSecurityCode: string|null;
+  cardSecurityCode: string | null;
+  total: number = 0;
 }
 
 export class CartLine {

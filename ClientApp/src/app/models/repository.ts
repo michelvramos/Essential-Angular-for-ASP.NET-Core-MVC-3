@@ -61,7 +61,7 @@ export class Repository {
       .subscribe(s => this.suppliers = s);
   }
 
-  CreateProduct(prod: Product) {
+  createProduct(prod: Product) {
     let data = {
       name: prod.name,
       category: prod.category,
@@ -91,7 +91,7 @@ export class Repository {
         this.suppliers.push(supp);
 
         if (prod != null) {
-          this.CreateProduct(prod);
+          this.createProduct(prod);
         }
       });
   }

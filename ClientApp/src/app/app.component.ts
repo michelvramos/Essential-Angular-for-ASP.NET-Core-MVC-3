@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Repository } from "./models/repository";
 import { Product } from "./models/product.model";
 import { Supplier } from "./models/supplier.model";
+import { ErrorHandlerService } from './errorHandler.service';
 
 @Component({
   selector: 'app-root',
@@ -9,8 +10,20 @@ import { Supplier } from "./models/supplier.model";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  
-  constructor(private repo: Repository) { }
+
+  private lastError: string[]|null;
+
+  constructor(private repo: Repository, errorService: ErrorHandlerService) {
+    errorService.errors.subscribe(error => { this.lastError = error; });
+  }
+
+  get error(): string []|null{
+    return this.lastError;
+  }
+
+  clearError() {
+    this.lastError = null;
+  }
 
   get product(): Product {
     return this.repo.product;
@@ -21,7 +34,7 @@ export class AppComponent {
   }
 
   createProduct() {
-    this.repo.CreateProduct(new Product(0, "X-ray Scuba Mask", "Watersports", "See what the fish are hiding", 49.99, this.repo.products[0].supplier));
+    this.repo.createProduct(new Product(0, "X-ray Scuba Mask", "Watersports", "See what the fish are hiding", 49.99, this.repo.products[0].supplier));
   }
 
   createProductAndSupplier() {
