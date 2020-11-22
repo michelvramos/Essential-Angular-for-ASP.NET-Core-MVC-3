@@ -142,11 +142,13 @@ namespace ServerApp
                     );
             });
 
+            //somente desenvolvimento
             //app.UseSwagger();
             //app.UseSwaggerUI(options => {
             //    options.SwaggerEndpoint("/swagger/v1/swagger.json", "SportsStore API");
             //});
 
+            //somente desenvolvimento
             //app.UseSpa(spa =>
             //{
             //    string strategy = Configuration.GetValue<string>("DevTools:ConnectionStrategy");
@@ -165,6 +167,7 @@ namespace ServerApp
             //    }
             //});
 
+            //somente desenvolvimento
             //SeedData.SeedDatabase(services.GetRequiredService<DataContext>());
             //IdentitySeedData.SeedDatabase(services).Wait();
 
